@@ -34,70 +34,7 @@ section, section pre {
     display: block;
 }
 
-.table-of-contents {
-    position: fixed;
-    left: -220px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 200px;
-    max-height: 90vh;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    border-radius: 0 8px 8px 0;
-    z-index: 1000;
-    overflow-y: auto;
-    transition: left 0.3s ease;
-    scrollbar-width: thin;
-    scrollbar-color: #8e44ad #f3e6fa;
-    cursor: pointer;
-}
-
-.table-of-contents:hover,
-.table-of-contents.active {
-    left: 0;
-}
-
-.table-of-contents.visible {
-    transform: translateX(220px);
-}
-
-.table-of-contents h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-    color: #333;
-    font-family: 'EB Garamond', serif;
-}
-
-.table-of-contents ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.table-of-contents li {
-    margin: 8px 0;
-    font-size: 0.9em;
-}
-
-.table-of-contents a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.2s;
-    font-family: 'EB Garamond', serif;
-    display: block;
-    padding: 3px 0;
-}
-
-.table-of-contents a:hover {
-    color: #0066cc;
-}
-
-.table-of-contents a.active {
-    color: #0066cc;
-    font-weight: bold;
-}
+/* ...existing code... */
 
 .chapter-title {
     scroll-margin-top: 100px;
@@ -117,98 +54,13 @@ section, section pre {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.table-of-contents a');
-    const toc = document.querySelector('.table-of-contents');
-    const pageContainer = document.querySelector('.page-container');
-    
-    if (window.location.hash) {
-        window.scrollTo(0, 0);
-    }
-    
-    function smoothScroll(targetElement) {
-        window.scrollTo({
-            top: window.pageYOffset + (Math.random() > 0.5 ? 1 : -1),
-            behavior: 'auto'
-        });
-        
-        void targetElement.offsetHeight;
-        
-        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-        window.scrollTo({
-            top: targetPosition - 100,
-            behavior: 'smooth'
-        });
-    }
-    
-    toc.addEventListener('click', function(e) {
-        if (e.target.tagName === 'A') {
-            e.preventDefault();
-            const targetId = e.target.getAttribute('href').slice(1);
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                smoothScroll(targetElement);
-                // URL upd
-                history.pushState(null, null, '#' + targetId);
-            }
-        } else {
-            toc.classList.toggle('active');
-        }
-    });
-
-    document.addEventListener('click', function(e) {
-        if (!toc.contains(e.target)) {
-            toc.classList.remove('active');
-        }
-    });
-
-
-    function setActiveLink() {
-        let currentSection = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (window.pageYOffset >= sectionTop - 60) {
-                currentSection = '#' + section.querySelector('[id]').id;
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentSection) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', setActiveLink);
-    setActiveLink();
-
-    function adjustTocPosition() {
-        const firstSection = sections[0];
-        if (firstSection) {
-            toc.style.top = `${firstSection.offsetTop}px`;
-        }
-    }
-    
-    window.addEventListener('load', adjustTocPosition);
-    window.addEventListener('resize', adjustTocPosition);
+    // ...existing code...
 });
 </script>
 </style>
 
 <div class="page-container">
-    <div class="table-of-contents">
-        <h3>Table of Contents</h3>
-        <ul>
-<li><a href="#preface">序章</a></li>
-<li><a href="#chapter1">第一章：姬絲man的信仰初始之路</a></li>
-<li><a href="#chapter2">第二章：姬絲man的早晨</a></li>
-<li><a href="#chapter3">第三章：姬絲man初次朗讀教義</a></li>
-<li><a href="#chapter4">第四章：姬絲man初次詠唱聖歌</a></li>
-<li><a href="#chapter5">第五章：姬絲man初立願望</a></li>
-<li><a href="#chapter6">第六章：教主的歌聲</a></li>
-</ul>
-    </div>
+    <!-- table of contents removed -->
 
     <div class="content-wrapper">
 
