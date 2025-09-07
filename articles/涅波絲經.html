@@ -1,0 +1,436 @@
+<style>
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('../EBGaramond-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+section, section pre {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1em;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+    box-sizing: border-box;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+    display: block;
+}
+
+.table-of-contents {
+    position: fixed;
+    left: -220px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    max-height: 90vh;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    border-radius: 0 8px 8px 0;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    scrollbar-width: thin;
+    scrollbar-color: #8e44ad #f3e6fa;
+    cursor: pointer;
+}
+
+.table-of-contents:hover,
+.table-of-contents.active {
+    left: 0;
+}
+
+.table-of-contents.visible {
+    transform: translateX(220px);
+}
+
+.table-of-contents h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #333;
+    font-family: 'EB Garamond', serif;
+}
+
+.table-of-contents ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.table-of-contents li {
+    margin: 8px 0;
+    font-size: 0.9em;
+}
+
+.table-of-contents a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+    font-family: 'EB Garamond', serif;
+    display: block;
+    padding: 3px 0;
+}
+
+.table-of-contents a:hover {
+    color: #0066cc;
+}
+
+.table-of-contents a.active {
+    color: #0066cc;
+    font-weight: bold;
+}
+
+.chapter-title {
+    scroll-margin-top: 100px;
+    padding-top: 20px;
+    margin-bottom: 30px;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.table-of-contents a');
+    const toc = document.querySelector('.table-of-contents');
+    const pageContainer = document.querySelector('.page-container');
+    
+    if (window.location.hash) {
+        window.scrollTo(0, 0);
+    }
+    
+    function smoothScroll(targetElement) {
+        window.scrollTo({
+            top: window.pageYOffset + (Math.random() > 0.5 ? 1 : -1),
+            behavior: 'auto'
+        });
+        
+        void targetElement.offsetHeight;
+        
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+            top: targetPosition - 100,
+            behavior: 'smooth'
+        });
+    }
+    
+    toc.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href').slice(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                smoothScroll(targetElement);
+                // URL upd
+                history.pushState(null, null, '#' + targetId);
+            }
+        } else {
+            toc.classList.toggle('active');
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!toc.contains(e.target)) {
+            toc.classList.remove('active');
+        }
+    });
+
+
+    function setActiveLink() {
+        let currentSection = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.pageYOffset >= sectionTop - 60) {
+                currentSection = '#' + section.querySelector('[id]').id;
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', setActiveLink);
+    setActiveLink();
+
+    function adjustTocPosition() {
+        const firstSection = sections[0];
+        if (firstSection) {
+            toc.style.top = `${firstSection.offsetTop}px`;
+        }
+    }
+    
+    window.addEventListener('load', adjustTocPosition);
+    window.addEventListener('resize', adjustTocPosition);
+});
+</script>
+</style>
+
+<div class="page-container">
+    <div class="table-of-contents">
+        <h3>Table of Contents</h3>
+        <ul>
+<li><a href="#preface">序章</a></li>
+<li><a href="#chapter1">第一章：姬絲man的信仰初始之路</a></li>
+<li><a href="#chapter2">第二章：姬絲man的早晨</a></li>
+<li><a href="#chapter3">第三章：姬絲man初次朗讀教義</a></li>
+<li><a href="#chapter4">第四章：姬絲man初次詠唱聖歌</a></li>
+<li><a href="#chapter5">第五章：姬絲man初立願望</a></li>
+<li><a href="#chapter6">第六章：教主的歌聲</a></li>
+</ul>
+    </div>
+
+    <div class="content-wrapper">
+
+    <div class="content-wrapper">
+<section>
+<h2 id="preface" class="chapter-title">序章</h2><pre>
+
+某日午後，他照常在碧海的海邊望著海上，試圖逃避過去的夢魘。就在他低著頭走向回家的道路時，一個奇怪的看板映入眼簾：
+
+「你今天吃堡了嗎？」
+
+他抬起頭，盯著這幾個字良久，像是第一次見到這個世界的語言。看板的字體是飽滿的手寫風，背後是碧藍色的光芒，像是要把他從黑暗中拉起。他一頭霧水地向前走去，卻發現看板下方竟是一扇敞開的古老木門，門上掛著一塊銅牌：「涅波神教」。
+
+某種說不清的力量牽引著他進入其中。木門吱呀作響後，他來到了一座奇異的教堂。牆壁上是抽象而又充滿神秘感的彩繪玻璃，天花板高聳如星辰，而正中央，則矗立著一尊高大的雕像——那是涅波教主，一尊雙手合十、頭頂透著聖光，一臉慈愛又不失莊重的神聖之像。
+
+他愣住了。多年來從未有過的莊嚴感撼動心弦。那一刻，他彷彿感受到自己的「最涅」被那股肅穆的氣氛與寧靜所包圍。
+
+突然一個信眾走了過來：
+「看來你也受到了教主的指引，前來洗去曾經的最涅吧..請加入我們涅波神教。」
+「我想應該是吧，請讓我加入你們...」
+
+不久後，他參與了入教儀式，由教主親自受洗。
+先被教主踩踏在腳下，從上方沐浴下傳說中的聖水，這過程會體驗到十幾分鐘的窒息感，但只有堅持住這過程，才能洗滌自身的「最涅」。
+
+他的信仰名由此誕生：姬絲man。
+
+從那天起，姬絲man展開了通往高階信仰者之路，而這個旅程，才剛剛開始……
+
+    </pre>
+    </section>
+
+    <section>
+    <h2 id="chapter1" class="chapter-title">第一章：姬絲man的信仰初始之路</h2><pre>
+
+早上，一股柔和的漢堡香氣從四周緩緩瀰漫到教堂內，隨後伴隨著的是富有神秘氣息的少女，少女的頭髮灰中帶白，身穿黑白相襯的衣裝，還有那醒目的藍色長襪，充滿著神聖的氣息。
+
+	那一刻，他有股說不出的熟悉感，好像在哪裡見過她。啊！想起來了，是那個神聖的雕像，難道……她就是傳說中的教主嗎？
+
+	她緩緩的用輕柔的聲音開口：
+	「你好，我的信徒。歡迎加入涅波神教，我是你們的教主……涅波絲姬……」
+
+	他聽完神秘少女的話後不自覺的雙膝跪地，開始膜拜。
+	而神秘少女不語，只是露出淡淡的微笑……
+
+        </pre>
+        </section>
+
+    <section>
+    <h2 id="chapter2" class="chapter-title">第二章：姬絲man的早晨</h2><pre>
+
+黎明破曉，大地正在復甦之時涅波神教的鐘叫醒了所有信徒，他與其他信徒一樣先在的心中禱告：「涅波涅波....偉大的涅波教主感謝你願意接納，現在我將洗清曾經的最涅與教主並肩前行...」
+
+接著一同走向了速食店風格的殿堂，原來這是信徒們共同享用餐點的地方，首先每位信徒都需要以聖水清洗自身並詠唱著：「以聖水潔身，洗淨心靈」，再回到座位上享用今日的第一餐–姬絲man以及紅茶，傳說這碗姬絲man是由聖水作為湯底，而紅茶是用聖水浸泡7749小時方可製成。待信眾食用完畢之後前往教堂詠唱教義...
+
+        </pre>
+        </section>
+
+<section>
+<h2 id="chapter3" class="chapter-title">第三章：姬絲man初次朗讀教義</h2><pre>
+
+教堂裏站滿了一排排信眾，卻無人交頭接耳。他們齊刷刷地面向演講台，似乎是在等待什麼存在的歸來。姬絲man稍加思索，也跟着他們在原地肅立，朝著講台的方向望去。
+
+不過片刻，講台上流出一股柔和的漢堡香氣。香味遍佈教堂，讓人沉溺在其中。只是愣神瞬間，姬絲man再回過神來ㄧㄧ不知何時，那神秘的身影已經顯露在眾人面前。
+
+「哇！是教主吔！」「祂竟然來了！」有些年幼的信徒按捺不住心中的興奮，與左鄰右里竊竊私語，打破了教堂的莊嚴肅靜。
+
+「肅靜！」一道輕柔的聲音嚴厲道，教堂內即刻便鴉雀無聲。教主隨後又說：「既然大家都到齊了，便開始朗讀吾教的教義吧。」
+
+一眾信徒收拾心情，一本正經地朗讀：「我等有幸受到偉大無私的涅波教主接納，願意以聖水潔身，洗淨心靈，以純潔的身軀永遠追隨教主，並遵從以下教誨：
+1. 
+   時刻保持尊重、友愛、包容
+2. 
+   不得以教主之名作假見證、行罪事
+3.
+   致力將本教福音向全世界傳播開去
+4. 
+   每周至少以聖水洗潔身體三次
+5. 
+   遇到愛絲姬魔人無需驚慌使用教主準備的聖水洗淨 他們身上的最涅
+6. 
+   如若在夢中見到教主請勞勞記住並在早晨時請資深涅波鈴解夢
+
+7. 
+      面對任何對本教的脅迫、誹謗，涅波鈴有義務以一切代價捍衛本教的名譽和安危
+8.
+      漢堡包裝袋是本教的聖物，正如十字架是基督教的聖物一樣重要，需尊重對待
+9. 
+      不準冒充教主之名，去外面招搖撞騙以及敲鋼杯，否則將受到真．涅波教主的神聖制裁
+10.
+      入教超過三年方可參加波波高升考核升階為更高等級的信徒 姬絲man→⁠涅波鈴→最涅紳眾
+註：唯有初代信徒以及對於涅波神教有重大貢獻者才可獲得「最涅紳眾」的稱號  波門
+
+
+教義朗讀完畢，姬絲man不知道是不是错覺，總覺得教主的目光時不時停留在自己身上，還對着自己微笑...
+
+        </pre>
+        </section>
+
+<section>
+<h2 id="chapter4" class="chapter-title">第四章：姬絲man初次詠唱聖歌</h2><pre>
+
+姬絲man與教主的視線不約而同地對上。只見她小食指一勾，一隻瑩光閃閃的光團憑空出現，像隻可愛的小精靈飛到姬絲man頭上。
+
+「今日有幸招一位新的門徒，我實在是高興至極呀！大家一起快來歡迎本教的新成員--姬絲man吧！」涅波教主啪了下小指頭，讓光團附在姫絲man身上閃閃發亮。
+
+話音剛落，眾人的目光齊刷刷地轉向姬絲man。有好奇的，有打量他的，有的投向友善的目光，看得姬絲man都不知道要看向哪了。
+
+教主見到他不太自在的樣子，發現她的新教徒好像有點害羞呢...該怎麼讓他融入大家呢？啊，她想到了！
+
+教主換下嚴肅的臉孔，笑容滿臉地歡迎道：
+「為了歡迎新成員的到來，不如大家教他如何唱聖歌吧！就唱最常唱的那一首。」
+教主哼起前奏，悠然動聽的哼聲在人群中環繞，一眾信徒熟練地跟着節奏歌頌聖歌：
+
+
+每條大街小巷 每個人的嘴裡
+見面第一句話 就是洗腳了沒
+涅波涅波涅波鈴
+涅波涅波涅波鈴～
+涅波涅波涅波鈴
+涅波涅波涅波鈴～
+
+唱完一段歌詞，姬絲man正聽得意猶未盡，突覺有人在拍他的肩膀。他轉身回望，一名橘色頭髮的信徒從他身後出現，看着約摸二十幾歲左右。
+
+見姫絲man反應過來，他鼓勵道：「哥們，不用那麼害羞，跟着我們一起唱吧！」
+姬絲man點點頭，隨後深深呼吸，提提氣，跟着大眾也歌頌了起來。
+
+詠唱完聖歌姬絲man感到前所未有的暢快，另一旁的涅波鈴打趣說：「怎麼樣？你感覺到聖歌帶來的安寧了嗎？這可是我們涅波神教最常唱的。」
+
+姬絲man閉目，細品此刻聖歌帶來的安寧。享受片刻，他才慢慢睜眼，回應涅波鈴的問題：
+「我剛開始來的時候，一聽到聖歌就彷彿教主在旁邊告訴我們---未來的世界掌握在我們手中，而且教主的聲音讓我感到安定，我的最涅也被淨化掉了。」
+
+「那很好。趁現在中場休息，你也可以跟著我們在神殿裏逛逛。」
+
+隨後，他跟著涅波鈴參觀涅波神殿以及周圍建設，以便更了解這裡的生活。每處的設施各有特色，看得姫絲man律律有味。
+
+可能他自己也沒有發現，在他還沒加入涅波神教前每天過著索然無味的生活，面對著廣闊的海洋意識到自己的渺小。不過，現在他的臉上慢慢有了笑容。他...似乎找到了方向。
+
+姬絲man如獲新生，感嘆道：「有教主跟涅波鈴們在身邊真好！」
+
+        </pre>
+        </section>
+
+<section>
+<h2 id="chapter5" class="chapter-title">第五章：姬絲man初立願望</h2><pre>
+
+夕陽悄然西下，早會隨著歌聲的消失而結束。涅波鈴陸陸續續地離開教堂。眼見眾人離開，姬絲man打算跟着回去。
+
+剛踏出門口，一道熟悉的身影突然跳到他面前：「哥們，終於等到你了！今晚會下流星雨，到時候一起到天台看看，好不好？」
+
+「唉？啊，好的。」姬絲man沒想到小年輕這麼熱情，但想到對方也只是出於好意，所以就欣然同意了。
+
+「天台... 哦，在這邊。」
+他初來乍到，不太認得路怎麼走。幸好走廊中的指示牌十分清晰，要不然還真要迷路了。
+
+爬了幾層的樓梯，他終於登上空曠無邊的天台。
+
+「來了？正好，趕上流星雨了！」小年輕興奮地揮了揮手，示意他快過來，「今晚的流星雨你可不能錯過！」
+
+姬絲man心頭一暖，上次這麼親切的招呼，也就在以前小時候見過了。反觀城市人一個比一個冷漠，哪像以前呢？或許是在城裏待太久，他反而對這種熱情有些不習慣。
+
+他... 以後能一直過上這種日子嗎？
+
+流星劃破黑寂的夜晚，像是在回應姬絲man。兩人靠着天台邊緣，沒有說話，就這麼默默地看着一顆一顆小流星閃耀登場，轉眼消失不見。
+
+「聽說流星越大，許下的願望越容易實現。你要不要也許個願望試試看？」小年輕提議道。
+
+姬絲man沒有回話，依舊望向那無際的夜空，似乎是在等着甚麼。下一刻，一顆大流星在群星中脫穎而出，他本能地雙手合十，緊閉雙目，在心裏虔誠的許願....
+
+此時此刻，他腦海裏只有故鄉的那片大海，海灘的那片笑聲，還有教主的那張笑容...
+
+一定要實現... 拜託了！
+
+姬絲man默念之際，大流星隱若發出七彩色光，隨着群星向夜空逝去。回過神來，只見小年輕向自己微微一笑。
+
+那是個很温暖的笑容。或許，他也相信姬絲man的願望一定會實現的吧。
+
+「謝謝，今天多虧你了。」
+「別謝別謝，我也只是心血來潮而已。」
+「對了，你的名字是...?」
+「圖奇，我叫做圖奇。」
+
+
+「差點忘了，今晚教主將會當眾唱歌。她的歌聲可以淨化我們的最涅，所以我們也去聽聽看吧！」
+
+        </pre>
+        </section>
+
+<section>
+<h2 id="chapter6" class="chapter-title">第六章：教主的歌聲</h2><pre>
+
+圖奇抓着姬絲man的手，言道：「快走，再等就趕不上了！」於是兩人慌慌張張地跑到殿堂。
+
+「太好了！幸好沒有錯過！」
+「圖奇，你剛剛說的歌聲難道是教主要唱歌吧？」
+「沒錯，盡情期待吧！她的歌聲可是全世界最好聽的！」
+
+待所有涅波鈴們集合完畢，突然間，一道聖光伴隨著月亮降臨在殿堂中央。
+只見群眾齊聲道：「參見教主！」
+教主環視眾人，清了清嗓子道：「各位涅波鈴，我知道你們平常有許多事情要做，也有許多壓力，所以今晚就讓我們放下一切煩惱，專心享受當下吧！」
+
+（小小的那個我 還不懂訴說.....）歌詞 <求救訊號>
+（教主緩緩開口 一陣輕柔且富含感情的歌聲環繞在殿堂之中，這純淨的天籟之音令涅波鈴們默默的流下淚珠。）
+
+（誰來接住我，否則我將無止境墮落....）歌詞
+（姬絲man忽然想起了加入涅波神教前的過往...）
+
+「曾經的我，為了能夠讓家鄉的父母可以過上更好的生活，毅然決然的到大都市打拼...」
+「不過我沒有讀過書，只能從事一些搬磚之類的苦差事。天天看著工頭的臉色，幾乎沒有一點自由，甚至沒有見到父母的最後一面；只能在休假時，望著海洋回憶著自己的家鄉...」
+「而現在我唯一的親人也離去了，那我努力工作的意義是為了什麼....活下去又是為了什麼？」
+
+（渴望的溫暖在誰懷中.....）歌詞
+（猛抬頭）
+「我想起來了！正當我失魂落魄的走在路上時，我看到了涅波神教的看板，保持著疑惑的心態走進了殿堂。然後，此時此地，是教主，還有涅波鈴們...讓我拾回了生活的動力。」
+
+（放開我 讓我想笑就笑 想哭就哭個夠 我會等候.........）歌詞
+（隨著教主的歌聲漸漸消失姬絲man的思緒也被拉回，姬絲man自己都沒察覺到，他早已淚流滿面）
+教主輕輕地抹去姬絲man的眼淚道：「孩子，你並不孤單。即使你曾經失去了摯愛之人，但現在還有我和各位涅波鈴們。別怕...我們一直在你們身邊 波們」
+（教主說完便隨著皎潔的月光消失，緩緩飛上天空，續漸退出大家的視線）
+（擦乾眼淚）
+
+姬絲man：「是..是阿 現在的我還有教主 涅波鈴以及最好的朋友，讓我們一輩子走在信仰的道路上吧」
+		</pre>
+	</section>
+    </div>
+</div>

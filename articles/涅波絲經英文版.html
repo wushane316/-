@@ -1,0 +1,277 @@
+<style>
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('../EBGaramond-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+.page-container {
+    display: block;
+    min-height: 100vh;
+    position: relative;
+}
+
+section, section pre {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1em;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+    box-sizing: border-box;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+    display: block;
+}
+
+
+.table-of-contents {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 100vh;
+    padding: 20px 10px 20px 20px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    border-radius: 0 8px 8px 0;
+    z-index: 1000;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8e44ad #f3e6fa;
+    cursor: pointer;
+    transition: none;
+}
+
+
+
+.table-of-contents h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #333;
+    font-family: 'EB Garamond', serif;
+}
+
+.table-of-contents ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.table-of-contents li {
+    margin: 8px 0;
+    font-size: 0.9em;
+}
+
+.table-of-contents a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+    font-family: 'EB Garamond', serif;
+    display: block;
+    padding: 3px 0;
+}
+
+.table-of-contents a:hover {
+    color: #0066cc;
+}
+
+.table-of-contents a.active {
+    color: #0066cc;
+    font-weight: bold;
+}
+
+.chapter-title {
+    scroll-margin-top: 100px;
+    padding-top: 20px;
+    margin-bottom: 30px;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+
+section pre b {
+    color: #4a4a4a;
+    font-weight: 600;
+}
+
+section pre i {
+    color: #666;
+    font-style: italic;
+}
+
+section pre {
+    text-indent: 0;
+}
+
+section pre > * {
+    margin-left: 0;
+}
+
+blockquote, 
+section pre > i:only-child {
+    margin: 10px 0;
+    padding-left: 20px;
+    border-left: 3px solid #ddd;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.table-of-contents a');
+    const toc = document.querySelector('.table-of-contents');
+    
+    if (window.location.hash) {
+        window.scrollTo(0, 0);
+    }
+    
+    function smoothScroll(targetElement) {
+        window.scrollTo({
+            top: window.pageYOffset + (Math.random() > 0.5 ? 1 : -1),
+            behavior: 'auto'
+        });
+        
+        void targetElement.offsetHeight;
+        
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+            top: targetPosition - 100,
+            behavior: 'smooth'
+        });
+    }
+    
+    toc.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href').slice(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                smoothScroll(targetElement);
+                history.pushState(null, null, '#' + targetId);
+            }
+        } else {
+            toc.classList.toggle('active');
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!toc.contains(e.target)) {
+            toc.classList.remove('active');
+        }
+    });
+
+    function setActiveLink() {
+        let currentSection = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.pageYOffset >= sectionTop - 60) {
+                currentSection = '#' + section.querySelector('[id]').id;
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', setActiveLink);
+    setActiveLink();
+
+    function adjustTocPosition() {
+        const firstSection = sections[0];
+        if (firstSection) {
+            toc.style.top = `${firstSection.offsetTop}px`;
+        }
+    }
+    
+    window.addEventListener('load', adjustTocPosition);
+    window.addEventListener('resize', adjustTocPosition);
+});
+</script>
+
+
+    <div class="page-container">
+    <div class="content-wrapper">
+<section>
+<h2 id="prologue" class="chapter-title">Prologue: The Revelation of the Greatest Sin</h2>
+<p>One afternoon, he stood where the waves kissed the sand like a spirit in pain, where the sea-wind and the sorrow were half in cast wails but he came not for joy, only for oblivion—fled from dreams those shadows of yesteryear!</p>
+<p>And lo! And then, as he turned to take the long, lonely way home, there met his gaze a most curious sign:</p>
+<p>"Hast thou eaten thy burger yet today?"</p>
+<p>He lifted his eyes and read the words, but he stared a long, long while, as if he were interpreting a language not of his world. The letters curled like a prophet’s script, complete and round, and were hewn by hand across a radiant expanse of deep cerulean — a shade not of this world, but called into existence to wrench him from his despair.</p>
+<p>Lost in contemplation and numbed by the crush, onward he pushed—</p>
+<p>And there, under that sign, was a door:</p>
+<p>An old, ancient, ajar wooden gate with a bronze sign above it that reads this name:</p>
+<p>The Church of Nebo.</p>
+<p>An invisible power now laid hold on his limbs and impelled him inward. Its wood creaking and caked dust exhaling from between its crevices, the door yawned open — and he entered.</p>
+<p><i>What world was this?</i></p>
+<p>A cathedral impossible to draw by hand or dream — walls of glass, a kaleidoscope divine; a ceiling vast, as constellations bound in time. And at its center: a towered and reeling presence, a statue tall and shuddering, hands clasped in reverent pose, brow aglow from holy light.</p>
+<p><i>The face was mercy, the pose judgment.</i></p>
+<p>It was <b>She. Neboskey.</b></p>
+<p>He stood as struck. <i>Yea, struck to the marrow.</i> Some strange sacredness had taken hold of him and squeezed from the depths a shiver — a sensation he had not known for years.</p>
+<p>And he whispered — nothing but his soul heard it:</p>
+<p><i>What is this tingling... this gentle loosening of my Worst Sin?</i></p>
+<p>And finally a voice — a man’s, lined by linen and awe:</p>
+<p>“She sends for thee as well. Come, stranger. Shed your Most Sin, and come along with us, the faithful of Nebo.”</p>
+<p>“Then... so be it,” he said, as if the words had been years in waiting.</p>
+<p><i>“Let me be enrolled with you.”</i></p>
+<p>So it was, the rite began.</p>
+<p>The Priestess loomed over him in a room as dark as the beginning of time, under the hidden stars of the dome.</p>
+<p><i>And then the foot — her sacred sole over his chest.</i></p>
+<p><i>And then the deluge — holy water, a flood from on high, stifling but holy.</i></p>
+<p><i>For in the death of the flesh, the soul was able to breathe again.</i></p>
+<p>So were they born, the rite was accomplished – <i>by submission, by silence, by smothering</i> – the Most Sin was purged.</p>
+<p>And afterward, he took to himself a new name in faith:</p>
+<p><b>Geesman</b>.</p>
+<p>So begins the tale.</p>
+<p><i>The story of rise, of challenges, of truths uninvited.</i></p>
+</section>
+
+
+<section>
+<h2 id="chapter1" class="chapter-title">Chapter One: <b>The Genesis of Geesman's Faith</b></h2>
+<p><i>On a silent, stifling morning, the hallowed hall filled with the rarest scent — no, not incense but burgers, warm and delicious.</i></p>
+<p>And lo! <b>She drew nigh, majestic, not as mortals step, but as a nightmare sheathed in secretest mantle.</b></p>
+<p>The color of her hair was <i>ash and argent twisted together</i>, her garb a <i>black-and-white dance of pattern</i>, her stockings and the color of the skies on a day kissed by some unheard grace.</p>
+<p>Instantly, a pang of memory struck him in the gut. <i>Where had he seen her face?</i> Ah! The statue, rehearsed in stone—<b>can it be?</b> Was this the <b>High Priestess</b>, buried in a legend, whom men name the <b>Highest Hierophant</b>?</p>
+<p>Then she spoke, as softly she replied:</p>
+<p><b>"Hail, my faithful. Welcome to the Church of Nebo. I am thy Hierophant... <i>Neboskey</i>."</b></p>
+<p>And hearing thus, he fell. <i>His knees buckled, not of his volition, but wrenched by the force of awe; worship sprang up not as something he did but as something done to this man from inside.</i></p>
+<p>She spake no more. There was only silence, and from that silence a <b>smile emerged — soft, unfathomable, divine.</b></p>
+</section>
+
+<section>
+<h2 id="chapter2" class="chapter-title">Chapter Two: <b>The Morning of Geesman</b></h2>
+<p>As the world traded in the day for the night, there in the twilight of dawn, the bell of Nebo Church awakened the whole of its heavenly followers.</p>
+<p>And he, even as they, prayed not from lip, but from heart, and said within himself:</p>
+<p><b>"Nebo, Nebo… O mighty Hierarch of the Highest Flame, I thank thee for thine embrace. Lo, I stand here before thee, nekked and bare of my sin; I cast out and am all white and beyond thee and above thee."</b></p>
+<p>Hand in hand they strolled, <i>not to an altar or to a holy writ</i>, for the matter-whereunto was a hall— but not a hall, instead a sanctum, <i>a temple made to look as a fast-food den</i>.</p>
+<p>This, they knew, was no ordinary restaurant, but <i>the Common Table of the Devout</i>.</p>
+<p>Now, each soul is to wash their flesh in the consecrated water, <i>singing this song as they wash</i>:</p>
+<p><b>"With holy water I will bathe and It shall cleanse my soul."</b></p>
+<p>So cleansed they returned to their places and sat waiting for their heavenly meal: a dish of <b>Geesman</b> and a cup of tea, not common leaves, <i>commonplace steeps of hours</i>.</p>
+<p>For legend tells how the soup is conceived of <i>holy water</i>, and the tea, ah, it steeps in sanctity — <i>it steeps for seven-thousand seven-hundred and forty-nine hours in Nebo's favor</i>.</p>
+<p>By the time the meal was finished, nothing remained of the burger crumb of the sacred offering.</p>
+<p>Yet the godly rose and sized, <i>their robes a rustling like unto the whispering of angels</i>, and they moved as one to the Great Church, there to chant the Doctrine, <i>eternal and ever-burning…</i></p>
+</section>
